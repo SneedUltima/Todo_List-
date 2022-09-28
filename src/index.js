@@ -6,6 +6,7 @@ const newProjectButton = document.querySelector("#new-project")
 const newTaskButton = document.querySelector("#new-task")
 const projectsContainer = document.querySelector(".projects-container")
 const tasksContainer = document.querySelector(".tasks-container")
+const innerTasks = document.querySelector(".tasks")
 
 addEventListener('load', (event) => {
     const newProject = new Project("Default Project")
@@ -16,6 +17,7 @@ addEventListener('load', (event) => {
     secondProject.newTask("gg","hh","aa",'nn')
     projects.push(secondProject)
     addProjectButton("Second Project", secondProject)
+    createTask(newProject, secondProject)
 });
 
 newProjectButton.addEventListener("click", () => {
@@ -31,8 +33,6 @@ newTaskButton.addEventListener("click", () => {
     const description = prompt("Description?: ")
     const priority = prompt("Priority?: ")
     const notes = prompt("Notes?: ")
-    let project = projects[0]
-    console.log(project);
     project.newTask(title, description, priority, notes)
     changeTaskDisplay()
 })
@@ -40,18 +40,7 @@ newTaskButton.addEventListener("click", () => {
 function changeTaskDisplay() {
     projects.forEach(project => {
     project.tasks.forEach(task => {
-        const taskContainer = document.createElement("div")
-        taskContainer.classList.add("task-container")
-        const title = document.createElement("p")
-        title.textContent = `Task: ${task.title}`
-        const description = document.createElement("p")
-        description.textContent = `Description: ${task.description}`
-        const priority = document.createElement("p")
-        priority.textContent = `Priority: ${task.priority}`
-        const notes = document.createElement("p")
-        notes.textContent = `Notes: ${task.notes}`
-        taskContainer.append(title, description, priority, notes)
-        tasksContainer.appendChild(taskContainer)
+        createTask()
     })
 })}
 
@@ -59,6 +48,7 @@ function addProjectButton(projectName, project) {
     const button = document.createElement("button")
     button.textContent = projectName
     button.addEventListener("click", () => {
+        clearDisplay(innerTasks)
         project.tasks.forEach(task => {
             const taskContainer = document.createElement("div")
             taskContainer.classList.add("task-container")
@@ -71,9 +61,32 @@ function addProjectButton(projectName, project) {
             const notes = document.createElement("p")
             notes.textContent = `Notes: ${task.notes}`
             taskContainer.append(title, description, priority, notes)
-            tasksContainer.appendChild(taskContainer)
+            innerTasks.appendChild(taskContainer)
 
     })})
     projectsContainer.append(button)
 }
+
+function createTask() {
+    const taskContainer = document.createElement("div")
+    taskContainer.classList.add("task-container")
+    const title = document.createElement("p")
+    title.textContent = `Task: ${task.title}`
+    const description = document.createElement("p")
+    description.textContent = `Description: ${task.description}`
+    const priority = document.createElement("p")
+    priority.textContent = `Priority: ${task.priority}`
+    const notes = document.createElement("p")
+    notes.textContent = `Notes: ${task.notes}`
+    taskContainer.append(title, description, priority, notes)
+    innerTasks.append(taskContainer)
+}
+
+function clearDisplay(parent) {
+    while (parent.firstChild) {
+         parent.removeChild(parent.firstChild);
+        }
+    }
+    
+    
 
