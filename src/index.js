@@ -8,16 +8,19 @@ const projectsContainer = document.querySelector(".projects-container")
 const tasksContainer = document.querySelector(".tasks-container")
 const innerTasks = document.querySelector(".tasks")
 
-addEventListener('load', (event) => {
+addEventListener('load', () => {
     const newProject = new Project("Default Project")
     newProject.newTask("aa","bb","cc",'DD')
     projects.push(newProject)
     addProjectButton("Default Project", newProject)
+
     const secondProject = new Project("Second Project")
     secondProject.newTask("gg","hh","aa",'nn')
     projects.push(secondProject)
     addProjectButton("Second Project", secondProject)
+
     createTask(newProject, secondProject)
+    clearDisplay(innerTasks)
 });
 
 newProjectButton.addEventListener("click", () => {
@@ -33,14 +36,15 @@ newTaskButton.addEventListener("click", () => {
     const description = prompt("Description?: ")
     const priority = prompt("Priority?: ")
     const notes = prompt("Notes?: ")
-    project.newTask(title, description, priority, notes)
+    const selectedProject = projects.find(project => project.selected === true)
+    selectedProject.newTask(title, description, priority, notes)
     changeTaskDisplay()
 })
 
 function changeTaskDisplay() {
     projects.forEach(project => {
     project.tasks.forEach(task => {
-        createTask()
+        createTask(task)
     })
 })}
 
@@ -48,6 +52,10 @@ function addProjectButton(projectName, project) {
     const button = document.createElement("button")
     button.textContent = projectName
     button.addEventListener("click", () => {
+        projects.forEach(projectItem => {
+            projectItem.selected = false;
+        })
+        project.selected = true;
         clearDisplay(innerTasks)
         project.tasks.forEach(task => {
             const taskContainer = document.createElement("div")
@@ -62,12 +70,13 @@ function addProjectButton(projectName, project) {
             notes.textContent = `Notes: ${task.notes}`
             taskContainer.append(title, description, priority, notes)
             innerTasks.appendChild(taskContainer)
+            console.log(projects);
 
     })})
     projectsContainer.append(button)
 }
 
-function createTask() {
+function createTask(task) {
     const taskContainer = document.createElement("div")
     taskContainer.classList.add("task-container")
     const title = document.createElement("p")
@@ -89,4 +98,7 @@ function clearDisplay(parent) {
     }
     
     
+
+// BUG: NEW TASKS DO NOT GET ADDED TO DISPLAY
+// NEED TO ADD TASKS TO PARTICULAR PROJECTs
 

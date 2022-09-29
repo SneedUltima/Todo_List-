@@ -16,4 +16,6 @@ export class Project {
         this.tasks.push(task)
         return task
     }
+
+    selected = false;
 }
