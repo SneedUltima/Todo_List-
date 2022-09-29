@@ -38,15 +38,15 @@ newTaskButton.addEventListener("click", () => {
     const notes = prompt("Notes?: ")
     const selectedProject = projects.find(project => project.selected === true)
     selectedProject.newTask(title, description, priority, notes)
-    changeTaskDisplay()
+    clearDisplay(innerTasks)
+    changeTaskDisplay(selectedProject)
 })
 
-function changeTaskDisplay() {
-    projects.forEach(project => {
-    project.tasks.forEach(task => {
+function changeTaskDisplay(selectedProject) {
+    selectedProject.tasks.forEach(task => {
         createTask(task)
     })
-})}
+}
 
 function addProjectButton(projectName, project) {
     const button = document.createElement("button")
