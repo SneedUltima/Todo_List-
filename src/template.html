@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/78568b6d53.js" crossorigin="anonymous"></script>
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
+    <img class="mountain-background" src="./assets/mountain.jpg" alt="mountain range image">
     <div class="body-container">
     <div class="header-container">
         <div class="header">
@@ -15,11 +17,18 @@
     </div>
     <div class="content-container">
         <div class="projects-container">
-            <button id="new-project">New Project</button>
+            <button id="new-project">
+                <i class="fa-solid fa-plus"></i>
+                New Project</button>
         </div>
         <div class="tasks-container">
-            <button id="new-task">Tasks</button>
+            <button id="new-task">
+                <i class="fa-solid fa-plus"></i>
+                 New Tasks
+            </button>
+            
             <div class="tasks">
+                
             </div>
         </div>
     </div>
