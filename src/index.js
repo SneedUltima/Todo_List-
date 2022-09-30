@@ -1,5 +1,6 @@
 import "./styles/main.scss"
 import {Project} from "./project.js"
+
 let projects = [];
 
 const newProjectButton = document.querySelector("#new-project")
@@ -32,6 +33,11 @@ newProjectButton.addEventListener("click", () => {
 })
 
 newTaskButton.addEventListener("click", () => {
+    if(projects.every(projectItem => 
+        projectItem.selected === false)) {
+        alert("You must first either select a project or create a new one.")
+        return
+        }
     const title = prompt("Title?: ")
     const description = prompt("Description?: ")
     const priority = prompt("Priority?: ")
@@ -68,7 +74,9 @@ function addProjectButton(projectName, project) {
             priority.textContent = `Priority: ${task.priority}`
             const notes = document.createElement("p")
             notes.textContent = `Notes: ${task.notes}`
-            taskContainer.append(title, description, priority, notes)
+            const bin = document.createElement("i")
+            bin.classList.add = ("fa-solid fa-plus")
+            taskContainer.append(title, description, priority, notes, bin)
             innerTasks.appendChild(taskContainer)
             console.log(projects);
 
@@ -98,7 +106,3 @@ function clearDisplay(parent) {
     }
     
     
-
-// BUG: NEW TASKS DO NOT GET ADDED TO DISPLAY
-// NEED TO ADD TASKS TO PARTICULAR PROJECTs
-
