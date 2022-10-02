@@ -64,24 +64,7 @@ function addProjectButton(projectName, project) {
         project.selected = true;
         clearDisplay(innerTasks)
         project.tasks.forEach(task => {
-            const taskContainer = document.createElement("div")
-            taskContainer.classList.add("task-container")
-            const title = document.createElement("p")
-            title.textContent = `Task: ${task.title}`
-            const description = document.createElement("p")
-            description.textContent = `Description: ${task.description}`
-            const priority = document.createElement("p")
-            priority.textContent = `Priority: ${task.priority}`
-            const notes = document.createElement("p")
-            notes.textContent = `Notes: ${task.notes}`
-            const bin = document.createElement("i")
-            bin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
-            bin.classList.add("bin")
-            taskContainer.append(title, description, priority, notes, bin)
-            innerTasks.appendChild(taskContainer)
-            bin.addEventListener("click", () => {
-              innerTasks.removeChild(taskContainer)  
-            })
+            createTask(task, project)
 
     })})
     projectsContainer.append(button)
