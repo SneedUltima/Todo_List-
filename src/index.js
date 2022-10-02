@@ -3,11 +3,14 @@ import {Project} from "./project.js"
 
 let projects = [];
 
+const bodyContainer = document.querySelector(".body-container")
 const newProjectButton = document.querySelector("#new-project")
 const newTaskButton = document.querySelector("#new-task")
 const projectsContainer = document.querySelector(".projects-container")
 const tasksContainer = document.querySelector(".tasks-container")
 const innerTasks = document.querySelector(".tasks")
+const taskModal = document.querySelector(".task-modal")
+const exitButton = document.querySelector("#exit")
 
 addEventListener('load', () => {
     const newProject = new Project("Default Project")
@@ -38,14 +41,21 @@ newTaskButton.addEventListener("click", () => {
         alert("You must first either select a project or create a new one.")
         return
         }
-    const title = prompt("Title?: ")
-    const description = prompt("Description?: ")
-    const priority = prompt("Priority?: ")
-    const notes = prompt("Notes?: ")
-    const selectedProject = projects.find(project => project.selected === true)
-    selectedProject.newTask(title, description, priority, notes)
-    clearDisplay(innerTasks)
-    changeTaskDisplay(selectedProject)
+    // const title = prompt("Title?: ")
+    // const description = prompt("Description?: ")
+    // const priority = prompt("Priority?: ")
+    // const notes = prompt("Notes?: ")
+    taskModal.classList.add("show")
+    bodyContainer.classList.add("blur");
+    // const selectedProject = projects.find(project => project.selected === true)
+    // selectedProject.newTask(title, description, priority, notes)
+    // clearDisplay(innerTasks)
+    // changeTaskDisplay(selectedProject)
+})
+
+exitButton.addEventListener("click", () => {
+    taskModal.classList.remove("show")
+    bodyContainer.classList.remove("blur");
 })
 
 function changeTaskDisplay(selectedProject) {
@@ -81,10 +91,13 @@ function createTask(task, selectedProject) {
     priority.textContent = `Priority: ${task.priority}`
     const notes = document.createElement("p")
     notes.textContent = `Notes: ${task.notes}`
+    const edit = document.createElement("i")
+    edit.innerHTML= "<i class='fa-solid fa-pen-to-square'></i>"
+    edit.classList.add("edit")
     const bin = document.createElement("i")
     bin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
     bin.classList.add("bin")
-    taskContainer.append(title, description, priority, notes, bin)
+    taskContainer.append(title, description, priority, notes, edit, bin)
     innerTasks.append(taskContainer)
     bin.addEventListener("click", () => {
         task.selected = true;

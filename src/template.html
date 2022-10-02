@@ -33,5 +33,40 @@
         </div>
     </div>
     </div>
+    <div class="task-modal">
+        <div class="modal-header">
+            <h1>Add New Task</h1>
+            <i id="exit" class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="form-container">
+        <form id="add-task-form" action="#">
+            <div class="form-column">
+            
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" placeholder="Task Name" required="">
+                
+            
+                <label for="date">Due Date:</label>
+                <input type="date" id="date" name="date" placeholder="dd/mm/yyyy" required="">
+                
+            
+                <label for="priority">Priority:</label>
+                <select name="priority" id="priority">
+                    <option value="low" id="low" selected>Low</option>
+                    <option value="medium" id="medium">Medium</option>
+                    <option value="high" id="high">High</option>
+                </select>
+                
+            
+                <label for="notes">Notes:</label>
+                <textarea name="notes" id="notes" cols="30" rows="5" placeholder="Add Notes..."></textarea>
+                
+            </div>
+        </form>
+        <div class="submit-container">
+            <button type="submit" id="submit">Submit</button>
+        </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -127,6 +127,14 @@ body{
             box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
             background: darken($light-color, 2%);
             }
+        
+        .edit{
+            cursor: pointer;
+    
+            &:hover{
+                color: rgb(29, 154, 29);
+                }
+            }
 
         .bin{
             cursor: pointer;
@@ -162,5 +170,87 @@ body{
         }
         }
 
+.task-modal{
+    position: fixed;
+    left: 50%;
+    top: 53%;
+    transform: translate(-50%, -50%);
+    width: 35vw;
+    height: 65vh;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    opacity: 0;
+    pointer-events: none;
 
 
+    .modal-header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 10px;
+        padding: 5px 10px;
+        color: white;
+        background: $blue-color;
+
+        #exit{
+            font-size: 20px;
+            cursor: pointer;
+
+            &:hover{
+                color: rgb(230, 228, 228);
+            }
+        }
+    }
+
+    .form-container{
+        .form-column{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding-top: 10px;
+
+            #title, #date, #priority, #notes{
+                background-color: $light-color;
+                border: none;
+                padding: 5px 5px; 
+                resize: none;
+            }
+        }
+    }
+
+    .submit-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+
+        #submit{
+            padding: 10px 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10%;
+            background: $blue-color;
+
+            &:hover{
+            background: darken($blue-color, 5%);
+            }
+
+            &:focus{
+            background: darken($blue-color, 10%);
+            }
+        }
+    }
+}
+
+.task-modal.show{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.body-container.blur{
+    filter: blur(5px);
+    pointer-events: none;
+}
