@@ -50,7 +50,7 @@ newTaskButton.addEventListener("click", () => {
 
 function changeTaskDisplay(selectedProject) {
     selectedProject.tasks.forEach(task => {
-        createTask(task)
+        createTask(task, selectedProject)
     })
 }
 
@@ -75,16 +75,19 @@ function addProjectButton(projectName, project) {
             const notes = document.createElement("p")
             notes.textContent = `Notes: ${task.notes}`
             const bin = document.createElement("i")
-            bin.classList.add = ("fa-solid fa-plus")
+            bin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
+            bin.classList.add("bin")
             taskContainer.append(title, description, priority, notes, bin)
             innerTasks.appendChild(taskContainer)
-            console.log(projects);
+            bin.addEventListener("click", () => {
+              innerTasks.removeChild(taskContainer)  
+            })
 
     })})
     projectsContainer.append(button)
 }
 
-function createTask(task) {
+function createTask(task, selectedProject) {
     const taskContainer = document.createElement("div")
     taskContainer.classList.add("task-container")
     const title = document.createElement("p")
@@ -95,8 +98,19 @@ function createTask(task) {
     priority.textContent = `Priority: ${task.priority}`
     const notes = document.createElement("p")
     notes.textContent = `Notes: ${task.notes}`
-    taskContainer.append(title, description, priority, notes)
+    const bin = document.createElement("i")
+    bin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
+    bin.classList.add("bin")
+    taskContainer.append(title, description, priority, notes, bin)
     innerTasks.append(taskContainer)
+    bin.addEventListener("click", () => {
+        task.selected = true;
+        
+        let taskRemove = selectedProject.tasks.findIndex(task => task.selected === true)
+        console.log(taskRemove);
+        selectedProject.tasks.splice(taskRemove, 1)
+        innerTasks.removeChild(taskContainer)  
+      })
 }
 
 function clearDisplay(parent) {
@@ -105,4 +119,4 @@ function clearDisplay(parent) {
         }
     }
     
-    
+// TASKS VISUALLY SHOULD BE SAME LENGTH

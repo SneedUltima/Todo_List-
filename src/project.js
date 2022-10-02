@@ -1,5 +1,3 @@
-// import {Tasks} from "./tasks.js"
-
 export class Project {
     constructor(name) {
         this.name = name;
@@ -11,7 +9,8 @@ export class Project {
             title : title, 
             description : description, 
             priority : priority, 
-            notes : notes
+            notes : notes,
+            selected: false,
         }
         this.tasks.push(task)
         return task
