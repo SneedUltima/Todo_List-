@@ -4,10 +4,10 @@ export class Project {
         this.tasks = []
     }
 
-    newTask(title, description, priority, notes){
+    newTask(title, date, priority, notes){
         let task = {
             title : title, 
-            description : description, 
+            date : date, 
             priority : priority, 
             notes : notes,
             selected: false,

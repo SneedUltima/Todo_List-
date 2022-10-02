@@ -10,7 +10,13 @@ const projectsContainer = document.querySelector(".projects-container")
 const tasksContainer = document.querySelector(".tasks-container")
 const innerTasks = document.querySelector(".tasks")
 const taskModal = document.querySelector(".task-modal")
+const submitButton = document.querySelector("#submit")
 const exitButton = document.querySelector("#exit")
+// Collecting Form Data
+const formTitle = document.querySelector("#title")
+const formDate = document.querySelector("#date")
+const formPriority = document.querySelector("#priority")
+const formNotes = document.querySelector("#notes")
 
 addEventListener('load', () => {
     const newProject = new Project("Default Project")
@@ -41,22 +47,31 @@ newTaskButton.addEventListener("click", () => {
         alert("You must first either select a project or create a new one.")
         return
         }
-    // const title = prompt("Title?: ")
-    // const description = prompt("Description?: ")
-    // const priority = prompt("Priority?: ")
-    // const notes = prompt("Notes?: ")
     taskModal.classList.add("show")
     bodyContainer.classList.add("blur");
-    // const selectedProject = projects.find(project => project.selected === true)
-    // selectedProject.newTask(title, description, priority, notes)
-    // clearDisplay(innerTasks)
-    // changeTaskDisplay(selectedProject)
+})
+
+submitButton.addEventListener("click", (e) => {
+    e.preventDefault()
+    removeModal()
+    const title = formTitle.value
+    const description = formDate.value
+    const priority = formPriority.value
+    const notes = formNotes.value
+    const selectedProject = projects.find(project => project.selected === true)
+    selectedProject.newTask(title, description, priority, notes)
+    clearDisplay(innerTasks)
+    changeTaskDisplay(selectedProject)
 })
 
 exitButton.addEventListener("click", () => {
+    removeModal()
+})
+
+function removeModal() {
     taskModal.classList.remove("show")
     bodyContainer.classList.remove("blur");
-})
+}
 
 function changeTaskDisplay(selectedProject) {
     selectedProject.tasks.forEach(task => {
@@ -85,8 +100,8 @@ function createTask(task, selectedProject) {
     taskContainer.classList.add("task-container")
     const title = document.createElement("p")
     title.textContent = `Task: ${task.title}`
-    const description = document.createElement("p")
-    description.textContent = `Description: ${task.description}`
+    const date = document.createElement("p")
+    date.textContent = `Date: ${task.date}`
     const priority = document.createElement("p")
     priority.textContent = `Priority: ${task.priority}`
     const notes = document.createElement("p")
@@ -97,7 +112,7 @@ function createTask(task, selectedProject) {
     const bin = document.createElement("i")
     bin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
     bin.classList.add("bin")
-    taskContainer.append(title, description, priority, notes, edit, bin)
+    taskContainer.append(title, date, priority, notes, edit, bin)
     innerTasks.append(taskContainer)
     bin.addEventListener("click", () => {
         task.selected = true;
