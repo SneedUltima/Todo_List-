@@ -30,9 +30,9 @@ addEventListener('load', () => {
     projects.push(newProject)
     addProjectButton("Default Project", newProject)
 
-    const secondProject = new Project("Second Project")
+    const secondProject = new Project("Empty Project")
     projects.push(secondProject)
-    addProjectButton("Second Project", secondProject)
+    addProjectButton("Empty Project", secondProject)
 
     createTask(newProject)
     clearDisplay(innerTasks)
@@ -46,6 +46,9 @@ newProjectButton.addEventListener("click", () => {
 projectSubmitButton.addEventListener("click", (e) => {
     e.preventDefault()
     removeModal(projectModal)
+    if(!formProjectName.value){
+        return
+    }
     const projectName = formProjectName.value
     const newProject = new Project(projectName)
     projects.push(newProject)
@@ -66,6 +69,10 @@ newTaskButton.addEventListener("click", () => {
 submitButton.addEventListener("click", (e) => {
     e.preventDefault()
     removeModal(taskModal)
+    if(!formTitle.value || !formDate.value || !formPriority.value) {
+        alert("Please enter at a minimum the task title, due date and task priority")
+        return
+    }
     const title = formTitle.value
     const date = formDate.value
     const priority = formPriority.value
@@ -220,5 +227,5 @@ function clearDisplay(parent) {
     }
     
 // IMPLEMENT EDIT BUTTON FOR TASKS AND PROJECTS
-// USER MUST FILL ALL SPACES ON TASK MODALs
 // TASK CIRCLE FUNCTIONALITY
+// LOCAL STORAGE
