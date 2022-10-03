@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&ffamily=Alatadisplay=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&ffamily=Alata&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
 
 $gradient-color:rgb(53,62,171) linear-gradient(90deg, rgba(53,62,171,1) 24%, rgba(0,115,255,1) 100%);
 $blue-color: rgb(53,62,171);
-$light-color: rgb(240, 234, 234);
+$light-color: rgb(242, 242, 242);
 $grey-color: rgb(215, 214, 214);
 $body-color: rgb(42, 42, 42);
-$body-font: 'Alata', sans-serif;
+$body-font: 'Roboto', sans-serif;
 
 *{
     box-sizing: border-box;
@@ -111,6 +111,11 @@ body{
 }
 
 .tasks{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+
     .task-container {
         max-width: 45vw;
         gap: 10px;
@@ -118,6 +123,7 @@ body{
         color: $body-color;
         padding: 10px 5px;
         font-size: 15px;
+        border-radius: 1%;
 
         .task-content{
             display: flex;
@@ -144,6 +150,29 @@ body{
                         color: $blue-color;
                         border-radius: 5%;
                         padding: 2px 2px;
+                    }
+
+                    .priority{
+                        font-weight: bold;
+                        padding: 1px 4px;
+                    }
+
+                    .priority.high{
+                        @extend .priority;
+                        border: 2px solid red;
+                        color: red;
+                    }
+
+                    .priority.medium{
+                        @extend .priority;
+                        border: 2px solid rgb(224, 92, 3);
+                        color: rgb(224, 92, 3);
+                    }
+
+                    .priority.low{
+                        @extend .priority;
+                        border: 2px solid rgb(23, 215, 20);
+                        color: rgb(23, 215, 20);
                     }
                 }
             }
@@ -203,7 +232,45 @@ body{
             background: darken($blue-color, 5%);
             }
         }
+
+    .delete-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 30px;
+
+        h1{
+            font-size: 30px;
         }
+
+        h2{
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        #delete-project{
+            padding: 10px 5px;
+            max-width: 100px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5%;
+            background: red;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+            &:hover{
+            background: darken(red, 5%);
+            }
+
+            &:focus{
+            background: darken(red, 10%);
+            }
+        }
+    }
+    }
 
 .task-modal{
     position: fixed;

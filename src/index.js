@@ -8,6 +8,8 @@ const newProjectButton = document.querySelector("#new-project")
 const newTaskButton = document.querySelector("#new-task")
 const projectsContainer = document.querySelector(".projects-container")
 const tasksContainer = document.querySelector(".tasks-container")
+const deleteContainer = document.querySelector(".delete-container")
+const deleteProjectButton = document.querySelector("#delete-project")
 const innerTasks = document.querySelector(".tasks")
 const taskModal = document.querySelector(".task-modal")
 const submitButton = document.querySelector("#submit")
@@ -22,17 +24,17 @@ const formNotes = document.querySelector("#notes")
 const formProjectName = document.querySelector("#project-name")
 
 addEventListener('load', () => {
+    deleteContainer.remove()
     const newProject = new Project("Default Project")
     newProject.newTask("Hit the gym","2022-10-12","High",'Powerlifting meetup prep')
     projects.push(newProject)
     addProjectButton("Default Project", newProject)
 
     const secondProject = new Project("Second Project")
-    secondProject.newTask("gg","hh","aa",'nn')
     projects.push(secondProject)
     addProjectButton("Second Project", secondProject)
 
-    createTask(newProject, secondProject)
+    createTask(newProject)
     clearDisplay(innerTasks)
 });
 
@@ -72,7 +74,24 @@ submitButton.addEventListener("click", (e) => {
     selectedProject.newTask(title, date, priority, notes)
     clearDisplay(innerTasks)
     changeTaskDisplay(selectedProject)
+    deleteProjectDisplay(selectedProject)
     clearModal()
+})
+
+deleteProjectButton.addEventListener("click", () => {
+    let projectIndex = projects.findIndex(project=> project.selected === true)
+    let projectRemove = projects[projectIndex].name 
+    console.log(projectRemove);
+    projects.splice(projectIndex, 1)
+    for(const button of document.querySelectorAll("button")) {
+        console.log("HH");
+        if(button.textContent.includes(projectRemove)){
+            console.log("hello");
+            projectsContainer.removeChild(button)
+            deleteContainer.remove()
+        }
+    }
+
 })
 
 
@@ -114,9 +133,21 @@ function addProjectButton(projectName, project) {
         clearDisplay(innerTasks)
         project.tasks.forEach(task => {
             createTask(task, project)
-
-    })})
+        })
+        
+        deleteProjectDisplay(project)
+        
+    })
     projectsContainer.append(button)
+}
+
+function deleteProjectDisplay(project) {
+    if(project.tasks.length > 0){
+        deleteContainer.remove()
+    }
+    else if(project.tasks.length === 0){
+        tasksContainer.append(deleteContainer)
+    }
 }
 
 function createTask(task, selectedProject) {
@@ -134,6 +165,15 @@ function createTask(task, selectedProject) {
     const priority = document.createElement("p")
     priority.textContent = `${task.priority}`
     priority.classList.add("priority")
+    if(task.priority === "High"){
+        priority.classList.add("high")
+    }
+    else if(task.priority === "Medium"){
+        priority.classList.add("medium")
+    }
+    else if(task.priority === "Low"){
+        priority.classList.add("low")
+    }
     const notes = document.createElement("p")
     notes.textContent = `Notes: ${task.notes}`
     notes.classList.add("notes")
@@ -167,7 +207,9 @@ function createTask(task, selectedProject) {
         
         let taskRemove = selectedProject.tasks.findIndex(task => task.selected === true)
         selectedProject.tasks.splice(taskRemove, 1)
-        innerTasks.removeChild(taskContainer)  
+        innerTasks.removeChild(taskContainer) 
+        
+        deleteProjectDisplay(selectedProject)
       })
 }
 
@@ -177,8 +219,6 @@ function clearDisplay(parent) {
         }
     }
     
-// EASE IN
-// FORMAT TASK CONTAINER VISUALLY
-// NEW PROJECT MODAL
-// IMPLEMENT EDIT BUTTON
+// IMPLEMENT EDIT BUTTON FOR TASKS AND PROJECTS
 // USER MUST FILL ALL SPACES ON TASK MODALs
+// TASK CIRCLE FUNCTIONALITY
