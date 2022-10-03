@@ -111,17 +111,52 @@ body{
 }
 
 .tasks{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
     .task-container {
-        max-width: 400px;
-        display: flex;
+        max-width: 45vw;
         gap: 10px;
         background-color: $light-color;
         color: $body-color;
         padding: 10px 5px;
+        font-size: 15px;
+
+        .task-content{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .upper-content{
+                display: flex;
+                justify-content: space-between;
+
+                .left-content{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+
+                .right-content{
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+
+                    .date{
+                        border: 1px solid $blue-color;
+                        color: $blue-color;
+                        border-radius: 5%;
+                        padding: 2px 2px;
+                    }
+                }
+            }
+
+            .lower-content{
+                display: flex;
+                padding-left: 20px;
+
+                .notes{
+                    font-style: italic;
+                }
+            }
+        }
 
         &:hover{
             box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
@@ -176,12 +211,13 @@ body{
     top: 53%;
     transform: translate(-50%, -50%);
     width: 35vw;
-    height: 65vh;
+    height: 70vh;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     opacity: 0;
     pointer-events: none;
-
+    transition-timing-function: ease-out;
+    transition: 0.3s;
 
     .modal-header{
         display: flex;
@@ -248,9 +284,75 @@ body{
 .task-modal.show{
     opacity: 1;
     pointer-events: auto;
+    transition-timing-function: ease-in;
+    transition: 0.2s;
 }
 
 .body-container.blur{
     filter: blur(5px);
     pointer-events: none;
+}
+
+.project-modal{
+    @extend .task-modal;
+    width: 30vw;
+    height: 30vh;
+    top: 45%;
+    display: flex;
+    flex-direction: column;
+    transition-timing-function: ease-out;
+    transition: 0.3s;
+
+    header{
+        @extend .modal-header;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 15px;
+        font-weight: bold;
+
+        #exit{
+            cursor: pointer;
+        }
+    }
+
+    .project-form{
+        padding: 20px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        #project-name{
+            max-width: 150px;
+            padding: 5px 5px;
+        }
+
+        #project-submit{
+            padding: 8px 8px;
+            margin-top: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10%;
+            background: $blue-color;
+
+            &:hover{
+            background: darken($blue-color, 5%);
+            }
+
+            &:focus{
+            background: darken($blue-color, 10%);
+            }
+        }
+    }
+}
+
+.project-modal.show{
+    opacity: 1;
+    pointer-events: auto;
+    transition-timing-function: ease-in;
+    transition: 0.2s;
 }

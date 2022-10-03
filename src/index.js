@@ -11,16 +11,19 @@ const tasksContainer = document.querySelector(".tasks-container")
 const innerTasks = document.querySelector(".tasks")
 const taskModal = document.querySelector(".task-modal")
 const submitButton = document.querySelector("#submit")
-const exitButton = document.querySelector("#exit")
+const exitButton = document.querySelectorAll("#exit")
+const projectModal = document.querySelector(".project-modal")
+const projectSubmitButton = document.querySelector("#project-submit")
 // Collecting Form Data
 const formTitle = document.querySelector("#title")
 const formDate = document.querySelector("#date")
 const formPriority = document.querySelector("#priority")
 const formNotes = document.querySelector("#notes")
+const formProjectName = document.querySelector("#project-name")
 
 addEventListener('load', () => {
     const newProject = new Project("Default Project")
-    newProject.newTask("aa","bb","cc",'DD')
+    newProject.newTask("Hit the gym","2022-10-12","High",'Powerlifting meetup prep')
     projects.push(newProject)
     addProjectButton("Default Project", newProject)
 
@@ -34,11 +37,18 @@ addEventListener('load', () => {
 });
 
 newProjectButton.addEventListener("click", () => {
-    const projectName = prompt("Name of Project?: ")
+    projectModal.classList.add("show")
+    bodyContainer.classList.add("blur");
+})
+
+projectSubmitButton.addEventListener("click", (e) => {
+    e.preventDefault()
+    removeModal(projectModal)
+    const projectName = formProjectName.value
     const newProject = new Project(projectName)
     projects.push(newProject)
-    console.log(projects);
-    addProjectButton(projectName)
+    addProjectButton(projectName, newProject)
+    clearModal()
 })
 
 newTaskButton.addEventListener("click", () => {
@@ -53,23 +63,37 @@ newTaskButton.addEventListener("click", () => {
 
 submitButton.addEventListener("click", (e) => {
     e.preventDefault()
-    removeModal()
+    removeModal(taskModal)
     const title = formTitle.value
-    const description = formDate.value
+    const date = formDate.value
     const priority = formPriority.value
     const notes = formNotes.value
     const selectedProject = projects.find(project => project.selected === true)
-    selectedProject.newTask(title, description, priority, notes)
+    selectedProject.newTask(title, date, priority, notes)
     clearDisplay(innerTasks)
     changeTaskDisplay(selectedProject)
+    clearModal()
 })
 
-exitButton.addEventListener("click", () => {
-    removeModal()
+
+exitButton.forEach(function(btn) {
+    btn.addEventListener("click", () => {
+        removeModal(taskModal)
+        removeModal(projectModal)
+    })
 })
 
-function removeModal() {
-    taskModal.classList.remove("show")
+function clearModal() {
+    formTitle.value = "";
+    formDate.value = "";
+    formPriority.value = "";
+    formNotes.value = "";
+    formProjectName.value = "";
+
+}
+
+function removeModal(modal) {
+    modal.classList.remove("show")
     bodyContainer.classList.remove("blur");
 }
 
@@ -98,27 +122,50 @@ function addProjectButton(projectName, project) {
 function createTask(task, selectedProject) {
     const taskContainer = document.createElement("div")
     taskContainer.classList.add("task-container")
+    const circle = document.createElement("i")
+    circle.innerHTML = '<i class="fa-regular fa-circle"></i>'
+    circle.classList.add("circle")
+
     const title = document.createElement("p")
-    title.textContent = `Task: ${task.title}`
+    title.textContent = `${task.title}`
     const date = document.createElement("p")
-    date.textContent = `Date: ${task.date}`
+    date.textContent = `${task.date}`
+    date.classList.add("date")
     const priority = document.createElement("p")
-    priority.textContent = `Priority: ${task.priority}`
+    priority.textContent = `${task.priority}`
+    priority.classList.add("priority")
     const notes = document.createElement("p")
     notes.textContent = `Notes: ${task.notes}`
+    notes.classList.add("notes")
     const edit = document.createElement("i")
     edit.innerHTML= "<i class='fa-solid fa-pen-to-square'></i>"
     edit.classList.add("edit")
     const bin = document.createElement("i")
     bin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
     bin.classList.add("bin")
-    taskContainer.append(title, date, priority, notes, edit, bin)
+
+    const upperContent = document.createElement("div")
+    upperContent.classList.add("upper-content")
+    const leftContent = document.createElement("div")
+    leftContent.classList.add("left-content")
+    const rightContent = document.createElement("div")
+    rightContent.classList.add("right-content")
+    leftContent.append(circle, title)
+    rightContent.append(date, priority, edit, bin)
+    upperContent.append(leftContent, rightContent)
+    const lowerContent = document.createElement("div")
+    lowerContent.classList.add("lower-content")
+    lowerContent.append(notes)
+    const taskContent = document.createElement("div")
+    taskContent.classList.add("task-content")
+    taskContent.append(upperContent, lowerContent)
+
+    taskContainer.append(taskContent)
     innerTasks.append(taskContainer)
     bin.addEventListener("click", () => {
         task.selected = true;
         
         let taskRemove = selectedProject.tasks.findIndex(task => task.selected === true)
-        console.log(taskRemove);
         selectedProject.tasks.splice(taskRemove, 1)
         innerTasks.removeChild(taskContainer)  
       })
@@ -130,4 +177,8 @@ function clearDisplay(parent) {
         }
     }
     
-// TASKS VISUALLY SHOULD BE SAME LENGTH
+// EASE IN
+// FORMAT TASK CONTAINER VISUALLY
+// NEW PROJECT MODAL
+// IMPLEMENT EDIT BUTTON
+// USER MUST FILL ALL SPACES ON TASK MODALs
