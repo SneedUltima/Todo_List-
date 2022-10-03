@@ -137,6 +137,14 @@ body{
                     display: flex;
                     align-items: center;
                     gap: 5px;
+
+                    .circle{
+                        color: green;
+                    }
+
+                    .title.strike{
+                        text-decoration: line-through;
+                    }
                 }
 
                 .right-content{
@@ -173,6 +181,7 @@ body{
                         border: 2px solid rgb(23, 215, 20);
                         color: rgb(23, 215, 20);
                     }
+                    
                 }
             }
 
@@ -182,6 +191,11 @@ body{
 
                 .notes{
                     font-style: italic;
+                }
+
+                .notes.strike{
+                    text-decoration: line-through;
+                }
                 }
             }
         }
@@ -208,7 +222,6 @@ body{
         }
     }
 
-}
 
 .tasks-container {
     padding: 20px 0 20px 20px;

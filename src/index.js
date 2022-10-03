@@ -163,9 +163,21 @@ function createTask(task, selectedProject) {
     const circle = document.createElement("i")
     circle.innerHTML = '<i class="fa-regular fa-circle"></i>'
     circle.classList.add("circle")
+    circle.addEventListener("click", () => {
+        if(circle.innerHTML === '<i class="fa-regular fa-circle"></i>') {
+            circle.innerHTML = "<i class='fa-solid fa-circle-check'></i>"
+            title.classList.add("strike")
+            notes.classList.add("strike")
+        } else {
+            circle.innerHTML = '<i class="fa-regular fa-circle"></i>'
+            title.classList.remove("strike")
+            notes.classList.remove("strike")
+        }
+    })
 
     const title = document.createElement("p")
     title.textContent = `${task.title}`
+    title.classList.add("title")
     const date = document.createElement("p")
     date.textContent = `${task.date}`
     date.classList.add("date")
