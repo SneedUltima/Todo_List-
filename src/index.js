@@ -35,6 +35,17 @@ addEventListener('load', () => {
     addProjectButton("Empty Project", secondProject)
 
     createTask(newProject)
+
+    for (const key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+            let project = JSON.parse(localStorage.getItem(key))
+            let storageProject = new Project(project.name)
+            storageProject.tasks = project.tasks
+            projects.push(storageProject)
+            addProjectButton(`${key}`, storageProject)
+            createTask(storageProject)
+        }
+    }
     clearDisplay(innerTasks)
 });
 
@@ -51,6 +62,8 @@ projectSubmitButton.addEventListener("click", (e) => {
     }
     const projectName = formProjectName.value
     const newProject = new Project(projectName)
+    let projectSerialized = JSON.stringify(newProject)
+    localStorage.setItem(`${projectName}`, projectSerialized);
     projects.push(newProject)
     addProjectButton(projectName, newProject)
     clearModal()
@@ -83,17 +96,19 @@ submitButton.addEventListener("click", (e) => {
     changeTaskDisplay(selectedProject)
     deleteProjectDisplay(selectedProject)
     clearModal()
+    var retrievedObject = localStorage.getItem(`${selectedProject.name}`);
+    var stored = JSON.parse(retrievedObject);;
+    stored.tasks.push(selectedProject.newTask(title, date, priority, notes));
+    let taskSerialized = JSON.stringify(stored)
+    localStorage.setItem(`${selectedProject.name}`, taskSerialized);
 })
 
 deleteProjectButton.addEventListener("click", () => {
     let projectIndex = projects.findIndex(project=> project.selected === true)
     let projectRemove = projects[projectIndex].name 
-    console.log(projectRemove);
     projects.splice(projectIndex, 1)
     for(const button of document.querySelectorAll("button")) {
-        console.log("HH");
         if(button.textContent.includes(projectRemove)){
-            console.log("hello");
             projectsContainer.removeChild(button)
             deleteContainer.remove()
         }
@@ -196,9 +211,6 @@ function createTask(task, selectedProject) {
     const notes = document.createElement("p")
     notes.textContent = `Notes: ${task.notes}`
     notes.classList.add("notes")
-    const edit = document.createElement("i")
-    edit.innerHTML= "<i class='fa-solid fa-pen-to-square'></i>"
-    edit.classList.add("edit")
     const bin = document.createElement("i")
     bin.innerHTML = "<i class='fa-solid fa-trash-can'></i>"
     bin.classList.add("bin")
@@ -210,7 +222,7 @@ function createTask(task, selectedProject) {
     const rightContent = document.createElement("div")
     rightContent.classList.add("right-content")
     leftContent.append(circle, title)
-    rightContent.append(date, priority, edit, bin)
+    rightContent.append(date, priority, bin)
     upperContent.append(leftContent, rightContent)
     const lowerContent = document.createElement("div")
     lowerContent.classList.add("lower-content")
@@ -238,6 +250,4 @@ function clearDisplay(parent) {
         }
     }
     
-// IMPLEMENT EDIT BUTTON FOR TASKS AND PROJECTS
-// TASK CIRCLE FUNCTIONALITY
 // LOCAL STORAGE
