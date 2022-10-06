@@ -96,8 +96,8 @@ submitButton.addEventListener("click", (e) => {
     changeTaskDisplay(selectedProject)
     deleteProjectDisplay(selectedProject)
     clearModal()
-    var retrievedObject = localStorage.getItem(`${selectedProject.name}`);
-    var stored = JSON.parse(retrievedObject);;
+    let retrievedObject = localStorage.getItem(`${selectedProject.name}`);
+    let stored = JSON.parse(retrievedObject);;
     stored.tasks.push(selectedProject.newTask(title, date, priority, notes));
     let taskSerialized = JSON.stringify(stored)
     localStorage.setItem(`${selectedProject.name}`, taskSerialized);
@@ -113,7 +113,7 @@ deleteProjectButton.addEventListener("click", () => {
             deleteContainer.remove()
         }
     }
-
+    localStorage.removeItem(`${projectRemove}`);
 })
 
 
@@ -241,6 +241,12 @@ function createTask(task, selectedProject) {
         innerTasks.removeChild(taskContainer) 
         
         deleteProjectDisplay(selectedProject)
+
+        let retrievedObject = localStorage.getItem(`${selectedProject.name}`);
+        let stored = JSON.parse(retrievedObject);
+        stored.tasks.splice(taskRemove, 1);
+        let taskSerialized = JSON.stringify(stored)
+        localStorage.setItem(`${selectedProject.name}`, taskSerialized);
       })
 }
 
