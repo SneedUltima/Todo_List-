@@ -1,10 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&ffamily=Alata&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
 
 $gradient-color:rgb(53,62,171) linear-gradient(90deg, rgba(53,62,171,1) 24%, rgba(0,115,255,1) 100%);
-$blue-color: rgb(53,62,171);
+$background-color: linear-gradient(
+    90deg,
+    rgba(48, 16, 255, 1) 0%,
+    rgba(100, 115, 255, 1) 100%
+  );
+$button-color:  linear-gradient(
+    90deg,
+    rgba(93, 12, 255, 1) 0%,
+    rgba(155, 0, 250, 1) 100%
+  );
+$blue-color: rgb(63, 74, 199);
 $light-color: rgb(242, 242, 242);
 $grey-color: rgb(215, 214, 214);
 $body-color: rgb(42, 42, 42);
+$dark-color: rgb(19,21,33);
 $body-font: 'Roboto', sans-serif;
 
 *{
@@ -15,16 +26,7 @@ $body-font: 'Roboto', sans-serif;
 
 body{
     font-family: $body-font;
-}
-
-.mountain-background{
-  min-height: 100%;
-  min-width: 1024px;
-  width: 100%;
-  height: auto;
-  position: fixed;
-  top: 0;
-  left: 0;
+    background: $gradient-color;
 }
 
 .body-container{
@@ -40,7 +42,8 @@ body{
 }
 
 .header-container{
-    background: $gradient-color;
+    background: $button-color;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,9 +65,9 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    border-right: 1px solid $blue-color;
-    background-color: $light-color;
+    gap: 15px;
+    border-right: 1px solid $button-color;
+    background: lighten($dark-color, 5%);
     padding-top: 20px;
     height: 420px;
     overflow-x: hidden;
@@ -74,28 +77,30 @@ body{
         display: flex;
         justify-content: center;
         gap: 5px;
+        max-width: 125px;
+        border-radius: 0.5rem;
         white-space: nowrap;
         padding: 10px 10px;
         margin: 0 60px;
         cursor: pointer;
         border: none;
-        background: $light-color;
-        border-radius: 5%;
+        background: $button-color;
         font-weight: bold;
         font-size: 16px;
-        color: $body-color;
+        color: white;
 
         &:hover{
-            background: darken($light-color, 5%);
+            background: rgba(93, 12, 255, 1);
         }
 
         &:focus{
-            background: darken($light-color, 10%);
+            background: darken(rgba(93, 12, 255, 1), 10%);
         }
 
         &:first-child{
             color: white;
             background: $blue-color;
+            margin-bottom: 15px;
 
             &:hover{
             background: darken($blue-color, 5%);
@@ -118,11 +123,12 @@ body{
     .task-container {
         max-width: 45vw;
         gap: 10px;
-        background-color: $light-color;
-        color: $body-color;
+        background-color: lighten($dark-color, 10%);
+        color: white;
+        border: 2px solid white;
         padding: 10px 5px;
         font-size: 15px;
-        border-radius: 1%;
+        border-radius: 1rem;
 
         .task-content{
             display: flex;
@@ -211,15 +217,15 @@ body{
 
 
 .tasks-container {
-    padding: 20px 0 20px 20px;
-    background-color: white;
+    padding: 20px 15px 20px 20px;
+    background-color: $dark-color;
     height: 420px;
     overflow-x: hidden;
     overflow-y: auto;
     
     #new-task{
         color: white;
-        background: $blue-color;
+        background: $button-color;
         border: none;
         padding: 10px 10px;
         margin-bottom: 20px;
@@ -228,7 +234,7 @@ body{
         box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
         &:hover{
-            background: darken($blue-color, 5%);
+            background: rgba(93, 12, 255, 1);
             }
         }
 
@@ -242,11 +248,13 @@ body{
 
         h1{
             font-size: 30px;
+            color: white;
         }
 
         h2{
             font-size: 20px;
             font-weight: 400;
+            color: white;
         }
 
         #delete-project{
