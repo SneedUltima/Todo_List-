@@ -1,8 +1,7 @@
 import "./styles/main.scss"
 import {Project} from "./project.js"
 
-let projects = [];
-
+// DOM Elements
 const bodyContainer = document.querySelector(".body-container")
 const newProjectButton = document.querySelector("#new-project")
 const newTaskButton = document.querySelector("#new-task")
@@ -16,26 +15,27 @@ const submitButton = document.querySelector("#submit")
 const exitButton = document.querySelectorAll("#exit")
 const projectModal = document.querySelector(".project-modal")
 const projectSubmitButton = document.querySelector("#project-submit")
-// Collecting Form Data
+// Collecting Form Data from DOM Elements
 const formTitle = document.querySelector("#title")
 const formDate = document.querySelector("#date")
 const formPriority = document.querySelector("#priority")
 const formNotes = document.querySelector("#notes")
 const formProjectName = document.querySelector("#project-name")
 
+// Array to contain projects
+let projects = [];
+
+// Event listener that loads an example project and projects created from local storage
 addEventListener('load', () => {
     deleteContainer.remove()
-    const newProject = new Project("Default Project")
-    newProject.newTask("Hit the gym","2022-10-12","High",'Powerlifting meetup prep')
+    const newProject = new Project("Example Project")
+    newProject.newTask("Coding Project #1","2022-10-12","High",'Finish my To-Do-List application')
+    newProject.newTask("Coding Project #2","2022-11-14","Low",'Finish my Tic-Tac-Toe game')
     projects.push(newProject)
-    addProjectButton("Default Project", newProject)
-
-    const secondProject = new Project("Empty Project")
-    projects.push(secondProject)
-    addProjectButton("Empty Project", secondProject)
-
+    addProjectButton("Example Project", newProject)
     createTask(newProject)
 
+    // Looks into local storage to find and display previous made projects and tasks
     for (const key in localStorage) {
         if (localStorage.hasOwnProperty(key)) {
             let project = JSON.parse(localStorage.getItem(key))
@@ -49,11 +49,13 @@ addEventListener('load', () => {
     clearDisplay(innerTasks)
 });
 
+// Event listener on New Project button that displays the create project modal
 newProjectButton.addEventListener("click", () => {
     projectModal.classList.add("show")
     bodyContainer.classList.add("blur");
 })
 
+// Event listener for project submit button to create a project button + object and store in local storage 
 projectSubmitButton.addEventListener("click", (e) => {
     e.preventDefault()
     removeModal(projectModal)
@@ -69,6 +71,7 @@ projectSubmitButton.addEventListener("click", (e) => {
     clearModal()
 })
 
+// Event listener for create task button to display task modal
 newTaskButton.addEventListener("click", () => {
     if(projects.every(projectItem => 
         projectItem.selected === false)) {
@@ -79,6 +82,8 @@ newTaskButton.addEventListener("click", () => {
     bodyContainer.classList.add("blur");
 })
 
+// Event listener for submit button on task modal
+// Takes data from form to create a task on the selected project, display it and store it in localStorage 
 submitButton.addEventListener("click", (e) => {
     e.preventDefault()
     removeModal(taskModal)
@@ -90,19 +95,23 @@ submitButton.addEventListener("click", (e) => {
     const date = formDate.value
     const priority = formPriority.value
     const notes = formNotes.value
+
     const selectedProject = projects.find(project => project.selected === true)
     selectedProject.newTask(title, date, priority, notes)
+
     clearDisplay(innerTasks)
     changeTaskDisplay(selectedProject)
     deleteProjectDisplay(selectedProject)
     clearModal()
+
     let retrievedObject = localStorage.getItem(`${selectedProject.name}`);
-    let stored = JSON.parse(retrievedObject);;
+    let stored = JSON.parse(retrievedObject);
     stored.tasks.push(selectedProject.newTask(title, date, priority, notes));
-    let taskSerialized = JSON.stringify(stored)
+    let taskSerialized = JSON.stringify(stored);
     localStorage.setItem(`${selectedProject.name}`, taskSerialized);
 })
 
+// Event listener for delete project button to delete project from display and localStorage
 deleteProjectButton.addEventListener("click", () => {
     let projectIndex = projects.findIndex(project=> project.selected === true)
     let projectRemove = projects[projectIndex].name 
@@ -116,7 +125,7 @@ deleteProjectButton.addEventListener("click", () => {
     localStorage.removeItem(`${projectRemove}`);
 })
 
-
+// Event listener for the exit button on the task and project modal to exit modal
 exitButton.forEach(function(btn) {
     btn.addEventListener("click", () => {
         removeModal(taskModal)
@@ -124,26 +133,29 @@ exitButton.forEach(function(btn) {
     })
 })
 
+// Function to clear the modal of typed data after a submit
 function clearModal() {
     formTitle.value = "";
     formDate.value = "";
     formPriority.value = "";
     formNotes.value = "";
     formProjectName.value = "";
-
 }
 
+// Function to clear modal display and blur effect
 function removeModal(modal) {
     modal.classList.remove("show")
     bodyContainer.classList.remove("blur");
 }
 
+// Function to create and display tasks for each project
 function changeTaskDisplay(selectedProject) {
     selectedProject.tasks.forEach(task => {
         createTask(task, selectedProject)
     })
 }
 
+// Function to create a project button
 function addProjectButton(projectName, project) {
     const button = document.createElement("button")
     button.textContent = projectName
@@ -163,6 +175,7 @@ function addProjectButton(projectName, project) {
     projectsContainer.append(button)
 }
 
+// Function to display project delete option if selected project has no tasks
 function deleteProjectDisplay(project) {
     if(project.tasks.length > 0){
         deleteContainer.remove()
@@ -172,6 +185,7 @@ function deleteProjectDisplay(project) {
     }
 }
 
+// Function to create the visual elements of the task and add event listeners to buttons on task
 function createTask(task, selectedProject) {
     const taskContainer = document.createElement("div")
     taskContainer.classList.add("task-container")
@@ -250,10 +264,10 @@ function createTask(task, selectedProject) {
       })
 }
 
+// Function to clear the container display
 function clearDisplay(parent) {
     while (parent.firstChild) {
          parent.removeChild(parent.firstChild);
         }
     }
     
-// LOCAL STORAGE

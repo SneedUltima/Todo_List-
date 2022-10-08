@@ -1,3 +1,4 @@
+// Class object to create projects that contain tasks
 export class Project {
     constructor(name) {
         this.name = name;
